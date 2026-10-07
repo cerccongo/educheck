@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Stats — EduCheck</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Stats — EduCheck figures & impact</title>
+  <meta name="description" content="Key figures for EduCheck: monitored value, Fix Rate, and notes on methodology.">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
+<body class="page-stats">
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="brand">EduCheck</a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <ul>
+      <a class="brand" href="index.html"><span class="brand-mark">Edu</span>Check</a>
+      <nav class="site-nav" aria-label="Main">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="navListStats">Menu</button>
+        <ul id="navListStats" class="nav-list">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="monitors.html">Monitors</a></li>
@@ -22,39 +25,43 @@
     </div>
   </header>
 
-  <main class="container">
-    <article class="page">
-      <h1>Key figures</h1>
+  <main class="container page-content">
+    <h1>Key figures & methodology</h1>
 
-      <section class="figures">
-        <div class="figure">
-          <h2 id="fig-money">$0</h2>
-          <p>worth of schools monitored</p>
+    <section class="stats-hero">
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-money-lg">$0</div>
+          <div class="stat-desc">worth of schools monitored</div>
         </div>
-        <div class="figure">
-          <h2 id="fig-fix">0%</h2>
-          <p>Fix Rate achieved (as of Sep 2025)</p>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-fix-lg">0%</div>
+          <div class="stat-desc">Fix Rate (as of Sep 2025)</div>
         </div>
-      </section>
+      </div>
 
-      <section>
-        <h2>How Fix Rate is calculated</h2>
-        <p>The Fix Rate is the proportion of problems identified that have been addressed or solved to the satisfaction of the community and monitor. It is expressed as a percentage: (no. of problems solved / no. of problems identified) × 100.</p>
-      </section>
+      <div class="chart" aria-hidden="false" id="chart-issues">
+        <svg viewBox="0 0 600 180" preserveAspectRatio="xMidYMid meet" class="svg-chart" aria-label="Monthly issues and fixes"></svg>
+      </div>
+    </section>
 
-      <section>
-        <h2>Notes</h2>
-        <p>Figures are drawn from monitoring initiatives run using EduCheck. The platform is used within specific initiatives and figures may cover projects monitored within partner programmes.</p>
-      </section>
-    </article>
+    <section class="methodology">
+      <h2>How Fix Rate is calculated</h2>
+      <p>The Fix Rate is the proportion of problems identified that have been addressed or solved to the satisfaction of the community and the monitor. Calculation: (number of problems solved / number of problems identified) × 100.</p>
+
+      <h3>Notes & coverage</h3>
+      <p>Figures are compiled from active monitoring initiatives using EduCheck and cover monitoring of school projects in partner programmes. Reports include structured evidence and monitor verification.</p>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="yearStats"></span> EduCheck S.A.</p>
+    <div class="container footer-grid">
+      <p class="brand-footer"><span class="brand-mark">Edu</span>Check</p>
+      <nav class="footer-nav"><a href="index.html">Home</a><a href="contact.html">Contact</a></nav>
+      <div class="legal muted">© <span id="yearStats"></span> EduCheck S.A.</div>
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

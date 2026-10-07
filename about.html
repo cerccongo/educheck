@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>About — EduCheck</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>About EduCheck — Community Monitoring</title>
+  <meta name="description" content="About EduCheck: approach, training, and how citizen monitoring drives accountability.">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
+<body class="page-about">
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="brand">EduCheck</a>
-      <button class="nav-toggle" id="navToggleAbout" aria-expanded="false" aria-controls="siteNavAbout">Menu</button>
-      <nav id="siteNavAbout" class="site-nav" aria-label="Main navigation">
-        <ul>
+      <a class="brand" href="index.html"><span class="brand-mark">Edu</span>Check</a>
+      <nav id="mainNavAbout" class="site-nav" aria-label="Main">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="navListAbout">Menu</button>
+        <ul id="navListAbout" class="nav-list">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html" aria-current="page">About</a></li>
           <li><a href="monitors.html">Monitors</a></li>
@@ -23,30 +25,54 @@
     </div>
   </header>
 
-  <main class="container">
-    <article class="page">
-      <h1>About EduCheck</h1>
-
-      <h2>The challenge</h2>
-      <p>A water supply that stopped working months ago. Teachers who do not show up for work. A dispensary that has run out of medicine. Citizens are promised many things in the name of development but too often the promises are not delivered as intended. Monitors, implementers and communities need practical ways to surface problems and push for solutions.</p>
-
-      <h2>Our approach</h2>
-      <p>EduCheck gives citizens a practical way to make projects and services local to them work better through monitoring. Inspired by open consumer feedback in the commercial sector, our platform makes monitoring public and real-time so feedback cannot be easily ignored.</p>
-
-      <h2>Not just an app</h2>
-      <p>EduCheck is part of a broader approach: in-depth training for monitors, structured engagement with stakeholders (local authorities, contractors, NGOs), and an accountability process that uses app data to create pressure and enable fixes.</p>
-
-      <h2>Use and availability</h2>
-      <p>EduCheck is used as part of specific monitoring initiatives. Monitors receive training before deployment. If you want EduCheck for an initiative promoting accountability, please contact us through the Contact page.</p>
+  <main class="container page-content">
+    <article class="hero-article">
+      <h1>Tracking service delivery where it matters most</h1>
+      <p class="lead">EduCheck is a citizen monitoring platform developed to strengthen accountability in public services. It combines a simple Android app, focused training for monitors, and an open web presence so evidence can drive action.</p>
     </article>
+
+    <section class="two-col">
+      <div>
+        <h2>The challenge</h2>
+        <p>Projects and services are often promised in the name of development but fail to deliver. Broken water systems, absent teachers, and shortages of medicine are just a few examples. Without clear evidence, communities lose leverage to demand fixes.</p>
+
+        <h2>Our approach</h2>
+        <p>We enable local monitors to gather reliable, verifiable reports — including photos and geolocation — which are shared publicly to create accountability. Training and stakeholder engagement are core: the app is a tool, the process is the programme.</p>
+      </div>
+
+      <aside class="panel">
+        <div class="panel-inner">
+          <h3>What monitors record</h3>
+          <ul class="panel-list">
+            <li>Problems identified</li>
+            <li>Actions proposed & solutions</li>
+            <li>Community reviews (awareness, satisfaction, need)</li>
+            <li>Access to information (contracts, budgets)</li>
+          </ul>
+          <a class="btn btn-primary" href="monitors.html">Monitor workflow</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="method">
+      <h2>A complete monitoring cycle</h2>
+      <ol class="steps">
+        <li><strong>Train monitors</strong> — equip them to identify and document reliably.</li>
+        <li><strong>Collect field evidence</strong> — photos, GPS, structured forms.</li>
+        <li><strong>Publish & engage</strong> — reports appear on the website and are shared with stakeholders.</li>
+        <li><strong>Track fixes</strong> — monitors verify when problems are resolved; Fix Rate is measured.</li>
+      </ol>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="yearAbout"></span> EduCheck S.A.</p>
+    <div class="container footer-grid">
+      <div><p class="brand-footer"><span class="brand-mark">Edu</span>Check</p></div>
+      <nav class="footer-nav" aria-label="Footer"><a href="index.html">Home</a><a href="contact.html">Contact</a></nav>
+      <div class="legal muted">© <span id="yearAbout"></span> EduCheck S.A.</div>
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

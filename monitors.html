@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Monitors — How EduCheck works</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Monitors — How EduCheck Works</title>
+  <meta name="description" content="How monitors collect data, the Fix Rate metric, training and stakeholder engagement.">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
+<body class="page-monitors">
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="brand">EduCheck</a>
-      <button class="nav-toggle" id="navToggleMon" aria-expanded="false" aria-controls="siteNavMon">Menu</button>
-      <nav id="siteNavMon" class="site-nav" aria-label="Main navigation">
-        <ul>
+      <a class="brand" href="index.html"><span class="brand-mark">Edu</span>Check</a>
+      <nav class="site-nav" aria-label="Main">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="navListMon">Menu</button>
+        <ul id="navListMon" class="nav-list">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="monitors.html" aria-current="page">Monitors</a></li>
@@ -23,32 +25,50 @@
     </div>
   </header>
 
-  <main class="container">
-    <article class="page">
-      <h1>Monitors and monitoring process</h1>
+  <main class="container page-content">
+    <h1>Monitors — tools, training, and process</h1>
 
-      <h2>What monitors record</h2>
-      <ul>
-        <li>Problems identified (what is broken or missing)</li>
-        <li>Actions taken or proposed to fix problems</li>
-        <li>Community reviews: awareness, satisfaction, perceived need</li>
-        <li>Access to information: availability of contracts, budgets and documentation</li>
-      </ul>
+    <section class="monitor-grid">
+      <div class="monitor-main">
+        <h2>What monitors record</h2>
+        <p>Monitors capture structured information that makes it easy for implementers and stakeholders to respond:</p>
+        <ul class="list-check">
+          <li>Problems (description, photo, GPS)</li>
+          <li>Actions & proposed fixes</li>
+          <li>Community reviews: awareness, satisfaction, perceived need</li>
+          <li>Access to information: contracts, budgets, timelines</li>
+        </ul>
 
-      <h2>Fix Rate</h2>
-      <p>The Fix Rate is the proportion of problems identified that have been addressed or solved to the satisfaction of the community and the monitor. It is calculated as: (number of problems solved / number of problems identified) × 100.</p>
+        <h2>Fix Rate</h2>
+        <p>The Fix Rate is the proportion of identified problems that are resolved to the satisfaction of the community and the monitor. Formula: (problems solved / problems identified) × 100. We publish this metric transparently so partners and communities can track progress.</p>
 
-      <h2>Training and stakeholder engagement</h2>
-      <p>Monitors undergo focused training to ensure consistent identification of issues, to gather reliable evidence, and to engage constructively with stakeholders so solutions can be implemented.</p>
-    </article>
+        <h2>Training and engagement</h2>
+        <p>Monitors receive focused training in evidence collection, ethical reporting, and stakeholder engagement. We work with local authorities and implementing partners to ensure reports result in constructive responses.</p>
+      </div>
+
+      <aside class="monitor-aside">
+        <div class="card card-elevated small">
+          <h3>Monitor toolkit</h3>
+          <ol class="panel-list">
+            <li>Mobile app with offline capability</li>
+            <li>Structured forms & photo evidence</li>
+            <li>Guidance for access-to-information requests</li>
+            <li>Templates for escalation & follow-up</li>
+          </ol>
+          <a class="btn btn-ghost" href="contact.html">Request training</a>
+        </div>
+      </aside>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="yearMon"></span> EduCheck S.A.</p>
+    <div class="container footer-grid">
+      <p class="brand-footer"><span class="brand-mark">Edu</span>Check</p>
+      <nav class="footer-nav"><a href="index.html">Home</a><a href="about.html">About</a></nav>
+      <div class="legal muted">© <span id="yearMon"></span> EduCheck S.A.</div>
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

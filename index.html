@@ -1,20 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>EduCheck — Citizens monitor. Everyone wins.</title>
+  <meta name="description" content="EduCheck helps communities track essential services and turn everyday concerns into action. Citizens monitor — everyone wins.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
-  <meta name="description" content="EduCheck — citizens monitor vital projects and services. See monitored value and fix rate.">
 </head>
-<body>
-  <header class="site-header">
+<body class="page-home">
+  <header class="site-header" role="banner">
     <div class="container header-inner">
-      <a href="index.html" class="brand">EduCheck</a>
-      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
-      <nav id="siteNav" class="site-nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="index.html">Home</a></li>
+      <a class="brand" href="index.html" aria-label="EduCheck home">
+        <span class="brand-mark" aria-hidden="true">Edu</span>Check
+      </a>
+
+      <nav id="mainNav" class="site-nav" role="navigation" aria-label="Main">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList">Menu</button>
+        <ul id="navList" class="nav-list">
+          <li><a href="index.html" aria-current="page">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="monitors.html">Monitors</a></li>
           <li><a href="stats.html">Stats</a></li>
@@ -24,41 +29,95 @@
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1>EduCheck — Citizens monitor. Everyone wins.</h1>
-        <p class="lead">A mobile tool and program that gives citizens the power to monitor projects and services so promises become results.</p>
+  <main id="content" class="container">
+    <section class="hero grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Community accountability platform</span>
+        <h1>Citizens monitor. Everyone wins.</h1>
+        <p class="lead">EduCheck empowers communities to monitor schools, water, health services and infrastructure — turning field reports into evidence, stakeholder engagement, and real fixes.</p>
 
-        <div class="stats-grid" aria-hidden="false">
-          <div class="stat">
-            <span class="stat-value" data-target="838379" id="stat-money">$0</span>
-            <span class="stat-label">worth of schools monitored</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" data-target="77" id="stat-fix">0%</span>
-            <span class="stat-label">Fix Rate achieved (as of Sep 2025)</span>
-          </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="about.html">Learn how it works</a>
+          <a class="btn btn-outline" href="contact.html">Request a pilot</a>
         </div>
 
-        <p><a href="monitors.html" class="btn">How monitoring works</a> <a href="contact.html" class="btn btn-outline">Get EduCheck for your initiative</a></p>
+        <div class="metrics" aria-hidden="false">
+          <div class="metric">
+            <div class="metric-value" id="metric-money" data-target="838379">$0</div>
+            <div class="metric-label">worth of schools monitored</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value" id="metric-fix" data-target="77">0%</div>
+            <div class="metric-label">Fix Rate (as of Sep 2025)</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-labelledby="panelTitle">
+        <div class="card card-elevated">
+          <div class="card-head">
+            <h3 id="panelTitle">Why EduCheck</h3>
+            <p class="muted">A practical, evidence-driven approach to accountability.</p>
+          </div>
+          <ul class="checklist">
+            <li><strong>Real-time reporting</strong> with photo & location</li>
+            <li><strong>Community reviews</strong> to measure satisfaction</li>
+            <li><strong>Access-to-info</strong> checks for contracts and budgets</li>
+            <li><strong>Training</strong> for monitors and stakeholder engagement</li>
+          </ul>
+          <div class="card-cta">
+            <a class="btn btn-ghost" href="monitors.html">For monitors</a>
+            <a class="btn btn-ghost" href="stats.html">See figures</a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="features">
+      <h2 class="sr-only">Core features</h2>
+      <div class="feature-grid">
+        <article class="feature">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+          <h3>Field-first design</h3>
+          <p>Android-first, ultra-simple interface for users with limited smartphone experience.</p>
+        </article>
+        <article class="feature">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+          <h3>Evidence & transparency</h3>
+          <p>Reports publish quickly on the web to create incentives for timely fixes.</p>
+        </article>
+        <article class="feature">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+          <h3>Training & partnerships</h3>
+          <p>We train monitors and work with local stakeholders to turn reports into action.</p>
+        </article>
       </div>
     </section>
 
-    <section class="intro container">
-      <h2>What is EduCheck?</h2>
-      <p>EduCheck (formerly DevelopmentCheck) is a mobile app and supporting approach developed by Educheck S.A. Monitors use the app to record problems, solutions, and community feedback while in the field. Submitted reports appear on this website to create incentives for timely fixes and keep citizens' voices central to service delivery.</p>
-      <p>EduCheck is designed for low-tech contexts: Android-first, simple UI, can be configured in any language and used after brief in-depth training for local monitors.</p>
+    <section class="quote">
+      <blockquote>
+        <p>“When communities can show evidence, implementers and authorities respond faster — EduCheck puts that power in people’s hands.”</p>
+        <cite>— Program Lead, Civic Accountability Initiative</cite>
+      </blockquote>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="year"></span> EduCheck S.A. — Citizens monitor. Everyone wins.</p>
-      <p><a href="contact.html">Contact</a> • <a href="about.html">About</a></p>
+    <div class="container footer-grid">
+      <div>
+        <p class="brand-footer"><span class="brand-mark">Edu</span>Check</p>
+        <p class="muted">Citizens monitor. Everyone wins.</p>
+      </div>
+      <nav aria-label="Footer" class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="monitors.html">Monitors</a>
+        <a href="stats.html">Stats</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="legal muted">© <span id="yearHome"></span> EduCheck S.A.</div>
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
