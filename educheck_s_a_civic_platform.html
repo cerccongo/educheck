@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCheck S.A. | Suivi Citoyen & Transparence Éducative</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0F172A',
+                            darknavy: '#020617',
+                            slate: '#1E293B',
+                            coral: '#E11D48',
+                            hovercoral: '#BE123C',
+                            teal: '#0D9488',
+                            cyan: '#06B6D4',
+                            lightbg: '#F8FAFC',
+                            cardbg: '#FFFFFF',
+                            muted: '#64748B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+
+        .ia-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+            transition: all 0.25s ease-in-out;
+        }
+        .ia-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            border-color: #CBD5E1;
+        }
+
+        .ia-btn-primary {
+            background-color: #E11D48;
+            color: #FFFFFF;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .ia-btn-primary:hover {
+            background-color: #BE123C;
+            transform: translateY(-1px);
+        }
+
+        .ia-btn-secondary {
+            background-color: #0F172A;
+            color: #FFFFFF;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .ia-btn-secondary:hover {
+            background-color: #1E293B;
+            transform: translateY(-1px);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0.75rem;
+            font-weight: 600;
+            color: #334155;
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #E11D48;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0.75rem;
+            right: 0.75rem;
+            height: 3px;
+            background-color: #E11D48;
+            border-radius: 9999px;
+        }
+
+        .phone-frame {
+            border: 12px solid #0F172A;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-navy text-white text-xs py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2 font-medium">
+                <span class="bg-brand-coral px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider">Impact DRC</span>
+                <span>Rapport T3 2025 disponible : 77% de Taux de Résolution (Fix Rate) certifié.</span>
+            </div>
+            <div class="flex items-center gap-4 text-slate-300">
+                <button id="langToggleBtn" class="hover:text-white flex items-center gap-1">
+                    <i class="fa-solid fa-globe text-brand-teal"></i>
+                    <span id="langDisplay">FR</span>
+                </button>
+                <span class="text-slate-600">|</span>
+                <a href="#page-contact" onclick="navigateTo('contact')" class="hover:text-brand-coral transition-colors">Contacter le Siège</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="javascript:void(0)" onclick="navigateTo('accueil')" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-navy flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-shield-halved text-lg text-brand-coral"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-tight text-brand-navy">EduCheck <span class="text-brand-coral">S.A.</span></span>
+                        <span class="block text-[10px] font-bold tracking-wider uppercase text-slate-500 -mt-1">Inspiré par Integrity Action</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden xl:flex items-center gap-1 text-sm">
+                    <button onclick="navigateTo('accueil')" class="nav-link active" id="nav-accueil">Accueil</button>
+                    <button onclick="navigateTo('defi')" class="nav-link" id="nav-defi">Le Défi</button>
+                    <button onclick="navigateTo('approche')" class="nav-link" id="nav-approche">Approche</button>
+                    <button onclick="navigateTo('comment-ca-marche')" class="nav-link" id="nav-comment-ca-marche">Comment ça marche</button>
+                    <button onclick="navigateTo('ce-que-nous-suivons')" class="nav-link" id="nav-ce-que-nous-suivons">Domaines</button>
+                    <button onclick="navigateTo('application')" class="nav-link" id="nav-application">Application</button>
+                    <button onclick="navigateTo('indicateurs')" class="nav-link" id="nav-indicateurs">Fix Rate</button>
+                    <button onclick="navigateTo('resultats')" class="nav-link" id="nav-resultats">Résultats</button>
+                    
+                    <!-- Dropdown for Actors & Vision -->
+                    <div class="relative group py-2">
+                        <button class="nav-link flex items-center gap-1">
+                            <span>Plus</span>
+                            <i class="fa-solid fa-chevron-down text-xs opacity-60"></i>
+                        </button>
+                        <div class="absolute top-full right-0 w-56 bg-white border border-slate-200 rounded-xl shadow-xl py-2 hidden group-hover:block border-t-4 border-t-brand-coral animate-fade-in">
+                            <button onclick="navigateTo('pour-ecoles')" class="block w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-brand-coral">Pour les Écoles</button>
+                            <button onclick="navigateTo('pour-partenaires')" class="block w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-brand-coral">Pour les Partenaires</button>
+                            <button onclick="navigateTo('moniteurs')" class="block w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-brand-coral">Les Moniteurs Élèves</button>
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <button onclick="navigateTo('apropos')" class="block w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-brand-coral">À propos d'EduCheck</button>
+                            <button onclick="navigateTo('vision')" class="block w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-brand-coral">Notre Vision</button>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Quick Actions -->
+                <div class="hidden sm:flex items-center gap-3">
+                    <button onclick="navigateTo('contact')" class="ia-btn-primary px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider flex items-center gap-2">
+                        <span>Rejoindre le Réseau</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobileMenuBtn" class="xl:hidden p-2 text-brand-navy hover:text-brand-coral focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobileMenu" class="hidden xl:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 shadow-2xl max-h-[80vh] overflow-y-auto">
+            <button onclick="navigateTo('accueil')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">1. Accueil</button>
+            <button onclick="navigateTo('defi')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">2. Le Défi</button>
+            <button onclick="navigateTo('approche')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">3. Notre Approche</button>
+            <button onclick="navigateTo('comment-ca-marche')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">4. Comment ça marche</button>
+            <button onclick="navigateTo('ce-que-nous-suivons')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">5. Ce que nous suivons</button>
+            <button onclick="navigateTo('application')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">6. L'Application App</button>
+            <button onclick="navigateTo('indicateurs')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">7. Les Indicateurs (Fix Rate)</button>
+            <button onclick="navigateTo('resultats')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">8. Dashboard Résultats</button>
+            <button onclick="navigateTo('pour-ecoles')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">9. Pour les Écoles</button>
+            <button onclick="navigateTo('pour-partenaires')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">10. Pour les Partenaires</button>
+            <button onclick="navigateTo('moniteurs')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">11. Les Moniteurs Élèves</button>
+            <button onclick="navigateTo('apropos')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">12. À propos</button>
+            <button onclick="navigateTo('vision')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">13. Notre Vision</button>
+            <button onclick="navigateTo('contact')" class="block w-full text-left py-2 font-semibold text-slate-700 hover:text-brand-coral border-b border-slate-100">14. Contact</button>
+            <div class="pt-4">
+                <button onclick="navigateTo('contact')" class="w-full py-3 ia-btn-primary rounded-xl text-center text-xs uppercase tracking-wider">
+                    Nous Contacter
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT VIEW ROUTER CONTAINER -->
+    <main class="flex-grow">
+        
+        <!-- ================================================================= -->
+        <!-- PAGE 1: ACCUEIL (HOME) -->
+        <!-- ================================================================= -->
+        <section id="page-accueil" class="view-page">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-b from-slate-900 to-brand-navy text-white py-20 lg:py-28 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#E11D48_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-coral/20 text-brand-coral font-extrabold text-xs tracking-wider uppercase border border-brand-coral/30">
+                                <i class="fa-solid fa-bullhorn text-brand-teal"></i> Suivi Citoyen de l'Éducation
+                            </span>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-white">
+                                Les élèves observent. <br/>
+                                Les écoles s’améliorent. <br/>
+                                <span class="text-brand-coral">Tout le monde gagne.</span>
+                            </h1>
+                            <p class="text-lg text-slate-300 font-normal max-w-2xl leading-relaxed">
+                                Inspired by Integrity Action's community monitoring methodology. <strong class="text-white">EduCheck S.A.</strong> equips students and pupils in DR Congo with tools to systematically monitor, document, and fix infrastructure and educational service failures in real time.
+                            </p>
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                                <button onclick="navigateTo('comment-ca-marche')" class="w-full sm:w-auto ia-btn-primary px-8 py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-3">
+                                    <span>Découvrir la Méthodologie</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                                <button onclick="navigateTo('indicateurs')" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl text-sm font-bold border border-white/20 backdrop-blur-md transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-calculator text-brand-teal"></i>
+                                    <span>Simulateur Fix Rate</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Hero Live Stats Banner Card -->
+                        <div class="lg:col-span-5">
+                            <div class="bg-slate-800/80 border border-slate-700/80 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl space-y-6">
+                                <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-chart-line text-brand-coral"></i>
+                                        Indicateurs Nationaux DRC
+                                    </h3>
+                                    <span class="text-[11px] font-bold text-brand-teal bg-brand-teal/20 px-2.5 py-1 rounded-full uppercase">Septembre 2025</span>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/50">
+                                        <div class="text-3xl font-black text-white">204</div>
+                                        <div class="text-xs font-semibold text-slate-400 mt-1">Écoles suivies</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/50">
+                                        <div class="text-3xl font-black text-brand-teal">3 060</div>
+                                        <div class="text-xs font-semibold text-slate-400 mt-1">Élèves moniteurs</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/50">
+                                        <div class="text-3xl font-black text-brand-coral">77%</div>
+                                        <div class="text-xs font-semibold text-slate-400 mt-1">Taux de résolution</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/50">
+                                        <div class="text-3xl font-black text-white">150k+</div>
+                                        <div class="text-xs font-semibold text-slate-400 mt-1">Élèves bénéficiaires</div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 text-xs text-slate-400 italic text-center">
+                                    "Chaque donnée collectée par un élève est transformée en action concrète d'amélioration."
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="py-20 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Valeurs Fondamentales</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy mt-2">Voir. Signaler. Agir. Améliorer.</h2>
+                        <p class="text-slate-600 mt-4 text-sm sm:text-base">
+                            Inspiré par le modèle d'action d'Integrity Action, nous croyons qu'une éducation de qualité repose sur des mécanismes de redevabilité collaborative et d'action citoyenne directe.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="ia-card p-6 rounded-2xl space-y-3">
+                            <div class="w-12 h-12 bg-rose-100 text-brand-coral rounded-xl flex items-center justify-center font-black text-xl">1</div>
+                            <h3 class="text-lg font-bold text-brand-navy">Observer</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Les élèves identifient les problèmes du quotidien : bancs cassés, latrines inaccessibles, manuels manquants.</p>
+                        </div>
+                        <div class="ia-card p-6 rounded-2xl space-y-3">
+                            <div class="w-12 h-12 bg-teal-100 text-brand-teal rounded-xl flex items-center justify-center font-black text-xl">2</div>
+                            <h3 class="text-lg font-bold text-brand-navy">Documenter</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Prise de photos, géolocalisation et données précises via l'application mobile EduCheck hors-ligne.</p>
+                        </div>
+                        <div class="ia-card p-6 rounded-2xl space-y-3">
+                            <div class="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-xl">3</div>
+                            <h3 class="text-lg font-bold text-brand-navy">Dialoguer</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Tables rondes constructives réunissant chefs d'établissement, enseignants, parents et autorité locale.</p>
+                        </div>
+                        <div class="ia-card p-6 rounded-2xl space-y-3">
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center font-black text-xl">4</div>
+                            <h3 class="text-lg font-bold text-brand-navy">Fix Rate (Fixer)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Suivi rigoureux jusqu'à la réparation effective et certification de la solution trouvée.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 2: LE DÉFI (THE CHALLENGE) -->
+        <!-- ================================================================= -->
+        <section id="page-defi" class="view-page hidden py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Diagnostic & Contexte</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Le Défi Éducatif en RDC</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Dans de nombreux établissements, les dysfonctionnements restent invisibles aux décideurs car il n'existe aucun canal d'information vérifiée du terrain.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="ia-card p-8 rounded-3xl border-l-4 border-l-brand-coral">
+                        <div class="w-12 h-12 bg-rose-50 text-brand-coral rounded-2xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-2">Classes surchargées & sans mobilier</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Élèves assises à même le sol, manque chronique de pupitres et de toitures étanches provoquant des interruptions systématiques pendant les saisons de pluie.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl border-l-4 border-l-brand-teal">
+                        <div class="w-12 h-12 bg-teal-50 text-brand-teal rounded-2xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-faucet-drip"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-2">Pénurie d'Eau et d'Assainissement</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Absence de latrines décentes ou séparées pour les filles, causant un fort taux d'absentéisme féminin et des risques d'hygiène préoccupants.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl border-l-4 border-l-brand-navy">
+                        <div class="w-12 h-12 bg-slate-100 text-brand-navy rounded-2xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-2">Manque de Matériel Didactique</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Pénurie extrême de manuels scolaires officiels (1 manuel pour 8 élèves), laboratoires de sciences vides ou obsolètes.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl border-l-4 border-l-brand-coral">
+                        <div class="w-12 h-12 bg-rose-50 text-brand-coral rounded-2xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-2">Absentéisme Non Suivi</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Heures de cours perdues non compensées, absence de mécanismes de signalement pour les parents et les comités d'élèves.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl border-l-4 border-l-brand-teal">
+                        <div class="w-12 h-12 bg-teal-50 text-brand-teal rounded-2xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-shield-cat"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-2">Sécurité & Clôtures Écoles</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Etablissements non clôturés exposant les enfants aux circulations routières et aux intrusions extérieures non contrôlées.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl border-l-4 border-l-brand-navy">
+                        <div class="w-12 h-12 bg-slate-100 text-brand-navy rounded-2xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-wheelchair"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-2">Exclusion des Groupes Vulnérables</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Absence d'infrastructures adaptées aux élèves handicapés moteurs ou malvoyants, limitant leur droit à la scolarisation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Callout Banner -->
+                <div class="mt-16 bg-brand-navy text-white p-8 sm:p-12 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+                    <div class="space-y-3">
+                        <h3 class="text-2xl font-bold">Transformer des plaintes passives en preuves constructives</h3>
+                        <p class="text-slate-300 text-sm max-w-2xl">
+                            EduCheck re-programme la relation entre la communauté et l'école : nous ne dénonçons pas sans proposer, nous documentons avec précision pour aider à réparer.
+                        </p>
+                    </div>
+                    <button onclick="navigateTo('approche')" class="ia-btn-primary px-6 py-3.5 rounded-xl text-xs uppercase tracking-wider whitespace-nowrap">
+                        Notre Approche
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 3: NOTRE APPROCHE (OUR APPROACH) -->
+        <!-- ================================================================= -->
+        <section id="page-approche" class="view-page hidden py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-teal uppercase tracking-widest">Les 5 Piliers d'Integrity Action</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Notre Approche du Suivi Citoyen</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Inspirée par la philosophie "Integrity Action", notre méthode place les élèves au cœur de la gouvernance scolaire.
+                    </p>
+                </div>
+
+                <div class="space-y-8 max-w-4xl mx-auto">
+                    <!-- Pillar 1 -->
+                    <div class="ia-card p-8 rounded-3xl flex flex-col md:flex-row items-start gap-6 border-l-8 border-l-brand-coral">
+                        <div class="w-16 h-16 bg-rose-100 text-brand-coral rounded-2xl flex items-center justify-center text-2xl font-black shrink-0">
+                            01
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Formation Pratique des Élèves</h3>
+                            <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                                Les moniteurs élèves sont formés aux principes du suivi citoyen, à l'objectivité de l'observation, à l'éthique de collecte et au maniement de l'application mobile EduCheck.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="ia-card p-8 rounded-3xl flex flex-col md:flex-row items-start gap-6 border-l-8 border-l-brand-teal">
+                        <div class="w-16 h-16 bg-teal-100 text-brand-teal rounded-2xl flex items-center justify-center text-2xl font-black shrink-0">
+                            02
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Monitoring Rigoureux sur le Terrain</h3>
+                            <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                                Des visites hebdomadaires guidées permettent aux moniteurs d'évaluer l'état des classes, la propreté des latrines, la présence des enseignants et la livraison des équipements promis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="ia-card p-8 rounded-3xl flex flex-col md:flex-row items-start gap-6 border-l-8 border-l-brand-navy">
+                        <div class="w-16 h-16 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-2xl font-black shrink-0">
+                            03
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Données Centralisées en Temps Réel</h3>
+                            <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                                Les observations saisies hors-ligne sont synchronisées dès le retour du réseau, alimentant un tableau de bord accessible aux directeurs et partenaires du secteur.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 4 -->
+                    <div class="ia-card p-8 rounded-3xl flex flex-col md:flex-row items-start gap-6 border-l-8 border-l-brand-coral">
+                        <div class="w-16 h-16 bg-rose-100 text-brand-coral rounded-2xl flex items-center justify-center text-2xl font-black shrink-0">
+                            04
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Dialogue Constructif & Joint Action</h3>
+                            <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                                Organisation de révisions communautaires. Au lieu d'accuser, les élèves présentent des faits tangibles aux chefs d'établissement pour convenir ensemble d'un plan de réparation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 5 -->
+                    <div class="ia-card p-8 rounded-3xl flex flex-col md:flex-row items-start gap-6 border-l-8 border-l-emerald-500">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl font-black shrink-0">
+                            05
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Suivi des Solutions (Fix Rate Certification)</h3>
+                            <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                                La boucle est bouclée lorsque la réparation est vérifiée physiquement par les élèves. Le problème passe alors du statut "Identifié" à "Résolu".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 4: COMMENT ÇA MARCHE ? (HOW IT WORKS) -->
+        <!-- ================================================================= -->
+        <section id="page-comment-ca-marche" class="view-page hidden py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Processus en 6 Étapes</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Du Problème à la Solution Certifiée</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Découvrez les 6 étapes séquentielles qui transforment un problème d'infrastructure en une résolution durable.
+                    </p>
+                </div>
+
+                <!-- 6 Step Visual Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="ia-card p-8 rounded-3xl relative overflow-hidden">
+                        <div class="text-xs font-black uppercase text-brand-coral tracking-widest mb-2">Étape 01</div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">Former les Moniteurs</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Élection paritaire des clubs d'élèves moniteurs et ateliers de formation au recueil de preuves impartiales et à l'usage de la technologie.
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-semibold text-brand-teal flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap"></i> Module de formation de 2 jours
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="ia-card p-8 rounded-3xl relative overflow-hidden">
+                        <div class="text-xs font-black uppercase text-brand-teal tracking-widest mb-2">Étape 02</div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">Observer sur le Terrain</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Inspeciton hebdomadaire des locaux, des bancs, de l'état des latrines, des points d'eau et vérification de la présence effective des enseignants.
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-semibold text-brand-teal flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Inspection terrain méthodique
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="ia-card p-8 rounded-3xl relative overflow-hidden">
+                        <div class="text-xs font-black uppercase text-brand-navy tracking-widest mb-2">Étape 03</div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">Documenter via l'App</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Prise de photos géolocalisées, qualification du niveau de gravité et enregistrement hors-ligne sur l'application EduCheck.
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-semibold text-brand-teal flex items-center gap-2">
+                            <i class="fa-solid fa-mobile-screen"></i> Saisie hors-ligne synchronisée
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="ia-card p-8 rounded-3xl relative overflow-hidden">
+                        <div class="text-xs font-black uppercase text-brand-coral tracking-widest mb-2">Étape 04</div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">Écouter la Communauté</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Consultation des autres camarades, des enseignants et des parents pour enrichir le rapport de témoignages vécus.
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-semibold text-brand-teal flex items-center gap-2">
+                            <i class="fa-solid fa-comments"></i> Retours d'expérience qualitatifs
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="ia-card p-8 rounded-3xl relative overflow-hidden">
+                        <div class="text-xs font-black uppercase text-brand-teal tracking-widest mb-2">Étape 05</div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">Mobiliser les Décideurs</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Présentation des synthèses de données au Chef d'Établissement et au Comité de Gestion pour définir les actions prioritaires.
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-semibold text-brand-teal flex items-center gap-2">
+                            <i class="fa-solid fa-handshake"></i> Réunions de co-résolution
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="ia-card p-8 rounded-3xl relative overflow-hidden">
+                        <div class="text-xs font-black uppercase text-emerald-600 tracking-widest mb-2">Étape 06</div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">Suivre & Valider (Fix Rate)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Re-visite de contrôle. Lorsque la réparation est constatée, le statut bascule à "Résolu" et contribue directement au Fix Rate certifié.
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-semibold text-emerald-600 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> Validation physique du résultat
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 5: CE QUE NOUS SUIVONS (WHAT WE TRACK) -->
+        <!-- ================================================================= -->
+        <section id="page-ce-que-nous-suivons" class="view-page hidden py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-12">
+                    <span class="text-xs font-bold text-brand-teal uppercase tracking-widest">Axe d'Inspection</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Domaines d'Observation Audités</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Sélectionnez une catégorie ci-dessous pour consulter la grille détaillée d'inspection citoyenne.
+                    </p>
+                </div>
+
+                <!-- Category Selector Tabs -->
+                <div class="flex flex-wrap justify-center gap-3 mb-10" id="categoryFilterGrid">
+                    <button onclick="switchTrackCategory('infra')" id="catbtn-infra" class="px-5 py-3 rounded-2xl text-xs font-bold border border-slate-200 transition-all bg-brand-navy text-white shadow-md">
+                        🏫 Infrastructures Scolaires
+                    </button>
+                    <button onclick="switchTrackCategory('wash')" id="catbtn-wash" class="px-5 py-3 rounded-2xl text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-100 transition-all">
+                        🚰 Eau, Hygiène & Latrines
+                    </button>
+                    <button onclick="switchTrackCategory('books')" id="catbtn-books" class="px-5 py-3 rounded-2xl text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-100 transition-all">
+                        📚 Matériel & Livres
+                    </button>
+                    <button onclick="switchTrackCategory('staff')" id="catbtn-staff" class="px-5 py-3 rounded-2xl text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-100 transition-all">
+                        👨‍🏫 Assiduité Enseignante
+                    </button>
+                    <button onclick="switchTrackCategory('gender')" id="catbtn-gender" class="px-5 py-3 rounded-2xl text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-100 transition-all">
+                        👧 Inclusion & Équité
+                    </button>
+                </div>
+
+                <!-- Category Content Box -->
+                <div id="trackCategoryDisplay" class="ia-card p-8 sm:p-12 rounded-3xl border-slate-200 max-w-4xl mx-auto">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 6: L'APPLICATION EDUCHECK (MOBILE APP) -->
+        <!-- ================================================================= -->
+        <section id="page-application" class="view-page hidden py-16 bg-slate-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <span class="text-xs font-bold text-brand-teal uppercase tracking-widest">Application Mobile React Native</span>
+                        <h1 class="text-3xl sm:text-5xl font-black text-white">Conçue pour le Terrain Sans Connexion</h1>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            L'application EduCheck a été optimisée spécifiquement pour les conditions d'accès réseau difficiles en RDC.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                            <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700">
+                                <div class="text-brand-coral text-xl mb-2"><i class="fa-solid fa-wifi-slash"></i></div>
+                                <h4 class="font-bold text-sm text-white">Mode 100% Offline</h4>
+                                <p class="text-xs text-slate-400 mt-1">Enregistrement local complet avec photos et coordonnées GPS sans réseau internet.</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700">
+                                <div class="text-brand-teal text-xl mb-2"><i class="fa-solid fa-language"></i></div>
+                                <h4 class="font-bold text-sm text-white">Interface Multilingue</h4>
+                                <p class="text-xs text-slate-400 mt-1">Disponible en Français, Lingala, Swahili, Tshiluba et Kikongo.</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700">
+                                <div class="text-brand-coral text-xl mb-2"><i class="fa-solid fa-camera"></i></div>
+                                <h4 class="font-bold text-sm text-white">Preuves Médias Horodatées</h4>
+                                <p class="text-xs text-slate-400 mt-1">Capture photo certifiée anti-falsification pour garantir l'authenticité.</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700">
+                                <div class="text-brand-teal text-xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
+                                <h4 class="font-bold text-sm text-white">Protection des Données</h4>
+                                <p class="text-xs text-slate-400 mt-1">Anonymisation optionnelle pour garantir la sécurité des élèves moniteurs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Phone Frame Mockup -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="phone-frame w-72 h-[520px] bg-slate-950 p-4 flex flex-col justify-between text-slate-900 relative">
+                            <!-- Mobile Header Bar -->
+                            <div class="bg-brand-navy text-white p-3 rounded-2xl flex items-center justify-between text-xs">
+                                <span class="font-bold flex items-center gap-1">
+                                    <i class="fa-solid fa-shield-halved text-brand-coral"></i> EduCheck App
+                                </span>
+                                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-mono">Offline Ready</span>
+                            </div>
+
+                            <!-- Mobile Body Simulator -->
+                            <div class="bg-slate-100 rounded-2xl p-3 flex-grow my-3 overflow-y-auto custom-scrollbar text-xs space-y-3">
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                                    <div class="font-bold text-brand-navy">Nouveau Signalement</div>
+                                    <div class="text-[10px] text-slate-500 mt-1">École: EP 1 Lumumba · Kinshasa</div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                                    <label class="block text-[10px] font-bold text-slate-700 uppercase">Problème Observé</label>
+                                    <select id="simIssueType" class="w-full text-xs p-1.5 rounded border border-slate-200 bg-slate-50">
+                                        <option>Toiture de classe endommagée</option>
+                                        <option>Point d'eau principal en panne</option>
+                                        <option>Manque de bancs en 5ème</option>
+                                        <option>Latrines filles fermées</option>
+                                    </select>
+                                    
+                                    <label class="block text-[10px] font-bold text-slate-700 uppercase">Niveau d'Urgence</label>
+                                    <div class="flex gap-1 text-[10px]">
+                                        <span class="bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded">Élevé</span>
+                                        <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Moyen</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="runAppSimulatorAction()" class="w-full py-2 bg-brand-coral text-white font-bold rounded-xl text-xs shadow-md hover:bg-rose-700 transition-colors">
+                                    <i class="fa-solid fa-paper-plane mr-1"></i> Soumettre le Rapport
+                                </button>
+
+                                <div id="simAppStatus" class="hidden bg-emerald-100 text-emerald-800 text-[10px] p-2 rounded-xl text-center font-semibold">
+                                    <i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i> Rapport enregistré en mode hors-ligne !
+                                </div>
+                            </div>
+
+                            <!-- Mobile Footer -->
+                            <div class="text-center text-[10px] text-slate-400">
+                                EduCheck Native App v2.4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 7: LES INDICATEURS (KEY INDICATORS & FIX RATE) -->
+        <!-- ================================================================= -->
+        <section id="page-indicateurs" class="view-page hidden py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Mesure d'Impact</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Le Concept de "Fix Rate"</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Directement dérivé des standards d'Integrity Action, le <strong>Fix Rate</strong> est le pourcentage de dysfonctionnements identifiés par la communauté qui sont effectivement résolus.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Concept Explanation -->
+                    <div class="space-y-6">
+                        <div class="ia-card p-6 rounded-3xl space-y-3">
+                            <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
+                                <i class="fa-solid fa-square-root-variable text-brand-coral"></i> Formule du Fix Rate
+                            </h3>
+                            <div class="p-4 bg-slate-900 text-white font-mono rounded-2xl text-center text-sm">
+                                Fix Rate = (Problèmes Résolus ÷ Problèmes Signalés) × 100
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Un Fix Rate de 100% signifie que chaque anomalie détectée par les élèves a reçu une solution concrète et vérifiée sur le terrain.
+                            </p>
+                        </div>
+
+                        <div class="ia-card p-6 rounded-3xl space-y-3 border-l-4 border-l-brand-teal">
+                            <h4 class="font-bold text-brand-navy text-sm">Pourquoi cet indicateur est révolutionnaire ?</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Contrairement aux enquêtes traditionnelles qui mesurent uniquement le niveau de satisfaction ou d'insatisfaction, le Fix Rate mesure <strong class="text-brand-navy">l'action corrective réelle</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Fix Rate Simulator Card -->
+                    <div class="ia-card p-8 rounded-3xl bg-white shadow-xl border-slate-200">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                            <h3 class="text-lg font-bold text-brand-navy flex items-center gap-2">
+                                <i class="fa-solid fa-calculator text-brand-teal"></i>
+                                Simulateur Interactif de Fix Rate
+                            </h3>
+                            <span class="bg-brand-teal/10 text-brand-teal text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Outil Live</span>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                                    <span>Problèmes Total Identifiés par les Élèves :</span>
+                                    <span id="calcTotalVal" class="text-brand-navy text-sm">200</span>
+                                </div>
+                                <input type="range" id="calcTotalRange" min="50" max="1000" value="200" step="10" class="w-full accent-brand-navy cursor-pointer">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                                    <span>Pourcentage Résolu :</span>
+                                    <span id="calcResolvedPctVal" class="text-brand-teal text-sm">77%</span>
+                                </div>
+                                <input type="range" id="calcResolvedPctRange" min="0" max="100" value="77" class="w-full accent-brand-teal cursor-pointer">
+                            </div>
+
+                            <div class="p-6 bg-brand-navy text-white rounded-2xl text-center space-y-2">
+                                <span class="text-[10px] uppercase font-extrabold tracking-widest text-slate-400">Résultat Calculé</span>
+                                <div class="flex items-center justify-center gap-2">
+                                    <span id="calcFixedNum" class="text-2xl font-bold text-brand-coral">154</span>
+                                    <span class="text-slate-400 text-xs">problèmes résolus sur</span>
+                                    <span id="calcTotalNumDisplay" class="text-2xl font-bold text-white">200</span>
+                                </div>
+                                <div class="pt-2 border-t border-slate-800">
+                                    <span id="calcResultDisplay" class="text-4xl font-black text-brand-teal">77.0%</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1">Taux de Résolution Certifié</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 8: RÉSULTATS (IMPACT & DASHBOARD) -->
+        <!-- ================================================================= -->
+        <section id="page-resultats" class="view-page hidden py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-teal uppercase tracking-widest">Tableau de Bord Nation DRC</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Résultats & Impact Mesuré</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Aperçu consolidé des données d'observation transmises par les 3 060 moniteurs élèves à travers la République Démocratique du Congo.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Main Chart Panel -->
+                    <div class="lg:col-span-2 ia-card p-6 sm:p-8 rounded-3xl border-slate-200">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="font-bold text-brand-navy">Résolution des Signalements par Domaine</h3>
+                                <p class="text-xs text-slate-500">Données certifiées Septembre 2025</p>
+                            </div>
+                            <span class="px-3 py-1 bg-brand-coral/10 text-brand-coral text-xs font-bold rounded-full">Chart.js Live</span>
+                        </div>
+                        <div class="h-72 sm:h-80">
+                            <canvas id="resultsChartCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Side Stats & Representation -->
+                    <div class="ia-card p-6 sm:p-8 rounded-3xl border-slate-200 flex flex-col justify-between space-y-6">
+                        <div>
+                            <h3 class="font-bold text-brand-navy mb-4">Inclusion & Représentativité</h3>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span class="text-slate-700">Filles dans les bureaux des clubs</span>
+                                        <span class="text-brand-coral">40%</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-brand-coral rounded-full" style="width: 40%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span class="text-slate-700">Groupes vulnérables inclus</span>
+                                        <span class="text-brand-teal">15%</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-brand-teal rounded-full" style="width: 15%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span class="text-slate-700">Taux Global Fix Rate</span>
+                                        <span class="text-brand-navy font-black">77%</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-brand-navy rounded-full" style="width: 77%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600">
+                            <i class="fa-solid fa-circle-check text-brand-teal mr-1"></i>
+                            Toutes les données sont vérifiées physiquement par les équipes terrain avant clôture.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 9: POUR LES ÉCOLES (FOR SCHOOLS) -->
+        <!-- ================================================================= -->
+        <section id="page-pour-ecoles" class="view-page hidden py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Partenariat Établissements</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Un Outil de Diagnostic, Pas de Sanction</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        EduCheck offre aux Chefs d'Établissement et Directeurs d'Écoles un système d'alerte précoce pour valoriser leurs efforts de gestion.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 bg-rose-100 text-brand-coral rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-square-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy">Prioritisation des Urgences</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Obtenez une vue synthétique des réparations urgentes exprimées directement par les utilisateurs finaux de vos locaux : les élèves.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 bg-teal-100 text-brand-teal rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-users-between-lines"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy">Climat de Confiance Accru</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Renforcez la confiance avec le Comité des Parents (COPA) en démontrant une transparence totale sur l'état des infrastructures.
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy">Valorisation du Leadership</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Mettez en avant les taux de résolution de votre école auprès des autorités provinciales de l'Enseignement (EPST).
+                        </p>
+                    </div>
+
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy">Accompagnement Pédagogique</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Développez le sens de la citoyenneté responsable chez vos élèves sans perturber le calendrier scolaire.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 10: POUR LES PARTENAIRES (FOR PARTNERS) -->
+        <!-- ================================================================= -->
+        <section id="page-pour-partenaires" class="view-page hidden py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-teal uppercase tracking-widest">Bailleurs & Bailleurs de Fonds</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Pour les Bailleurs, ONG & Ministères</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Acheminez vos investissements d'infrastructures avec l'assurance d'un contrôle citoyen indépendant et rigoureux.
+                    </p>
+                </div>
+
+                <div class="bg-brand-navy text-white rounded-3xl p-8 sm:p-12 space-y-8">
+                    <h2 class="text-2xl font-bold text-brand-teal">Le Cadre Identifiez -> Analysez -> Suivez -> Mesurez</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs">
+                        <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
+                            <div class="font-extrabold text-brand-coral text-sm mb-1">01. Cartographie</div>
+                            <p class="text-slate-300">Identification précise des zones géographiques scolaires les plus vulnérables.</p>
+                        </div>
+                        <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
+                            <div class="font-extrabold text-brand-teal text-sm mb-1">02. Preuves Terrain</div>
+                            <p class="text-slate-300">Rapports d'audit certifiés avec photographies géolocalisées antérieures et postérieures.</p>
+                        </div>
+                        <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
+                            <div class="font-extrabold text-white text-sm mb-1">03. Dialogue Inclusif</div>
+                            <p class="text-slate-300">Facilitation de révisions conjointes entre bailleurs et autorités publiques.</p>
+                        </div>
+                        <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
+                            <div class="font-extrabold text-emerald-400 text-sm mb-1">04. Fix Rate Certifié</div>
+                            <p class="text-slate-300">Calcul d'impact certifié pour vos rapports de redevabilité institutionnelle.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 11: LES MONITEURS (STUDENT MONITORS) -->
+        <!-- ================================================================= -->
+        <section id="page-moniteurs" class="view-page hidden py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Acteurs de Changement</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">Les Moniteurs Élèves</h1>
+                    <p class="text-slate-600 mt-4 text-base">
+                        Rencontrez les jeunes filles et jeunes gens qui consacrent leur énergie à rendre leur école meilleure.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Testimonial Card 1 -->
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-brand-coral text-white font-bold flex items-center justify-center text-lg">
+                                AK
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-navy">Aminata K.</h4>
+                                <span class="text-xs text-slate-500">Présidente du Club · Kinshasa</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 italic leading-relaxed">
+                            "Avant EduCheck, personne ne nous demandait notre avis sur l'état des latrines. Aujourd'hui, grâce aux photos prises sur l'application, nous avons obtenu 4 nouvelles sanisettes adaptées."
+                        </p>
+                    </div>
+
+                    <!-- Testimonial Card 2 -->
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-brand-teal text-white font-bold flex items-center justify-center text-lg">
+                                JM
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-navy">Jean-Marc M.</h4>
+                                <span class="text-xs text-slate-500">Moniteur Élève · Goma</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 italic leading-relaxed">
+                            "Nous n'accusons pas notre directeur. Nous lui présentons des chiffres clairs. Cela permet de trouver rapidement des financements pour réparer le toit de nos salles."
+                        </p>
+                    </div>
+
+                    <!-- Testimonial Card 3 -->
+                    <div class="ia-card p-8 rounded-3xl space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-brand-navy text-white font-bold flex items-center justify-center text-lg">
+                                DB
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-navy">Divine B.</h4>
+                                <span class="text-xs text-slate-500">Monitrice Équité · Lubumbashi</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 italic leading-relaxed">
+                            "Nous veillons à ce que les camarades en situation de handicap puissent accéder facilement aux tableaux et aux bancs. L'éducation est un droit pour tous."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 12: À PROPOS (ABOUT EDUCHECK S.A.) -->
+        <!-- ================================================================= -->
+        <section id="page-apropos" class="view-page hidden py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-teal uppercase tracking-widest">Entreprise Sociale en DRC</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-brand-navy mt-2">À Propos d'EduCheck S.A.</h1>
+                    <p class="text-slate-600 mt-4 text-base leading-relaxed">
+                        EduCheck S.A. est une entreprise sociale opérant en République Démocratique du Congo. Nous concevons et déployons des technologies civiques novatrices inspirées par Integrity Action pour transformer l'éducation publique.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-8 bg-slate-50 rounded-3xl border border-slate-200 text-center space-y-3">
+                        <div class="w-12 h-12 bg-rose-100 text-brand-coral rounded-2xl flex items-center justify-center text-xl mx-auto">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <h3 class="font-bold text-brand-navy text-lg">Notre Vision</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Un système éducatif congolais où chaque voix d'élève est entendue et où chaque anomalie constatée devient le moteur d'une amélioration mesurable.
+                        </p>
+                    </div>
+
+                    <div class="p-8 bg-slate-50 rounded-3xl border border-slate-200 text-center space-y-3">
+                        <div class="w-12 h-12 bg-teal-100 text-brand-teal rounded-2xl flex items-center justify-center text-xl mx-auto">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="font-bold text-brand-navy text-lg">Notre Mission</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Démocratiser l'accès aux outils de suivi citoyen et certifier les taux de résolution (Fix Rate) auprès des autorités et des partenaires du développement.
+                        </p>
+                    </div>
+
+                    <div class="p-8 bg-slate-50 rounded-3xl border border-slate-200 text-center space-y-3">
+                        <div class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-xl mx-auto">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <h3 class="font-bold text-brand-navy text-lg">Nos Valeurs</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Transparence, redevabilité collaborative, égalité des genres (40% de gouvernance féminine) et rigueur absolue dans le traitement des données.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 13: NOTRE VISION (OUR VISION) -->
+        <!-- ================================================================= -->
+        <section id="page-vision" class="view-page hidden py-16 bg-slate-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Perspectives d'Avenir</span>
+                    <h1 class="text-3xl sm:text-5xl font-black text-white mt-2">Vers un Réseau National DRC</h1>
+                    <p class="text-slate-300 mt-4 text-base">
+                        D'ici 2028, EduCheck S.A. vise le suivi citoyen continu dans plus de 1 000 établissements à travers l'ensemble des provinces de la RDC.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="p-8 rounded-3xl bg-slate-800 border border-slate-700 space-y-3">
+                        <h3 class="text-xl font-bold text-brand-teal">1. Institutionnalisation des Clubs</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Ancrer la présence des clubs d'élèves moniteurs dans les chartes internes des établissements scolaires avec le soutien du Ministère de l'EPST.
+                        </p>
+                    </div>
+
+                    <div class="p-8 rounded-3xl bg-slate-800 border border-slate-700 space-y-3">
+                        <h3 class="text-xl font-bold text-brand-coral">2. Interopérabilité des Données</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Lier les indicateurs EduCheck aux systèmes d'information statistiques scolaires nationaux (SIGE) pour orienter la politique budgétaire.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- PAGE 14: CONTACT & DEPLOYMENT FORM -->
+        <!-- ================================================================= -->
+        <section id="page-contact" class="view-page hidden py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    <!-- Left Info -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-xs font-bold text-brand-coral uppercase tracking-widest">Contact & Déploiement</span>
+                        <h1 class="text-3xl sm:text-5xl font-black text-brand-navy">Rejoignez le Réseau EduCheck</h1>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Vous êtes un Chef d'Établissement, un responsable d'ONG, un bailleur ou un représentant ministériel ? Contactez nos équipes pour déployer la solution dans votre zone.
+                        </p>
+
+                        <div class="space-y-4 text-xs font-semibold text-slate-700">
+                            <div class="flex items-center gap-3 p-4 bg-white rounded-2xl border border-slate-200">
+                                <div class="w-10 h-10 bg-rose-100 text-brand-coral rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500 text-[10px]">Siège Social</div>
+                                    <div class="text-brand-navy font-bold">EduCheck S.A. · République Démocratique du Congo</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 p-4 bg-white rounded-2xl border border-slate-200">
+                                <div class="w-10 h-10 bg-teal-100 text-brand-teal rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500 text-[10px]">Courriel Officiel</div>
+                                    <div class="text-brand-navy font-bold">contact@educheck.cd</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Form -->
+                    <div class="lg:col-span-7">
+                        <div class="ia-card p-8 rounded-3xl border-slate-200">
+                            <div id="contactFormAlert" class="hidden mb-6 p-4 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-3">
+                                <i class="fa-solid fa-circle-check text-xl text-emerald-600"></i>
+                                <div>
+                                    <strong>Demande transmise avec succès !</strong>
+                                    <p class="text-[11px] text-emerald-800">Un chargé de projet EduCheck S.A. prendra contact avec votre structure sous 24h.</p>
+                                </div>
+                            </div>
+
+                            <form id="deploymentForm" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-brand-navy uppercase mb-1">Nom Complet</label>
+                                        <input type="text" required class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-coral/50 outline-none" placeholder="Ex: Joseph Kabedi">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-brand-navy uppercase mb-1">Adresse Email</label>
+                                        <input type="email" required class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-coral/50 outline-none" placeholder="Ex: joseph@ecole.cd">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-brand-navy uppercase mb-1">Type de Structure</label>
+                                    <select class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs bg-white focus:ring-2 focus:ring-brand-coral/50 outline-none">
+                                        <option>Établissement Scolaire (École / Institut)</option>
+                                        <option>ONG / Organisation de la Société Civile</option>
+                                        <option>Bailleur de Fonds / Partenaire International</option>
+                                        <option>Ministère / Autorité Publique EPST</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-brand-navy uppercase mb-1">Message ou Description du Projet</label>
+                                    <textarea rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-coral/50 outline-none" placeholder="Précisez la province, le nombre d'écoles visées..."></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full py-4 ia-btn-primary rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    <span>Envoyer la Demande de Déploiement</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navy text-slate-400 py-12 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-800">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2 text-white font-extrabold text-lg">
+                        <i class="fa-solid fa-shield-halved text-brand-coral"></i> EduCheck S.A.
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Inspiré par la vision d'Integrity Action. Les élèves observent, les écoles s'améliorent, tout le monde gagne.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-3">Navigation rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" onclick="navigateTo('accueil')" class="hover:text-white">Accueil</a></li>
+                        <li><a href="javascript:void(0)" onclick="navigateTo('defi')" class="hover:text-white">Le Défi</a></li>
+                        <li><a href="javascript:void(0)" onclick="navigateTo('approche')" class="hover:text-white">Notre Approche</a></li>
+                        <li><a href="javascript:void(0)" onclick="navigateTo('indicateurs')" class="hover:text-white">Simulateur Fix Rate</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-3">Acteurs & Impact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" onclick="navigateTo('pour-ecoles')" class="hover:text-white">Pour les Écoles</a></li>
+                        <li><a href="javascript:void(0)" onclick="navigateTo('pour-partenaires')" class="hover:text-white">Pour les Partenaires</a></li>
+                        <li><a href="javascript:void(0)" onclick="navigateTo('moniteurs')" class="hover:text-white">Les Moniteurs Élèves</a></li>
+                        <li><a href="javascript:void(0)" onclick="navigateTo('resultats')" class="hover:text-white">Tableau de Bord Nation</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-3">Contact RDC</h4>
+                    <p class="text-slate-400 leading-relaxed">
+                        EduCheck S.A.<br/>
+                        République Démocratique du Congo<br/>
+                        Email : contact@educheck.cd
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
+                <p>&copy; 2026 EduCheck S.A. Tous droits réservés. Inspired by Integrity Action Ethos.</p>
+                <p>Projet de Suivi Citoyen Éducatif RDC</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Router System
+        function navigateTo(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.view-page');
+            pages.forEach(p => p.classList.add('hidden'));
+
+            // Show selected page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Update nav active states
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+
+            // Close mobile menu
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Language Switcher Simulation
+        let currentLang = 'FR';
+        document.getElementById('langToggleBtn').addEventListener('click', () => {
+            currentLang = currentLang === 'FR' ? 'EN' : 'FR';
+            document.getElementById('langDisplay').innerText = currentLang;
+            alert(currentLang === 'EN' ? 'Language switched to English (Simulated).' : 'Langue changée en Français.');
+        });
+
+        // Dynamic Domain Category Display Data (Ce que nous suivons)
+        const trackData = {
+            infra: {
+                title: "🏫 Infrastructures Scolaires",
+                desc: "Inspection de la solidité des murs, de l'étanchéité des toitures, des vitres et du nombre de pupitres fonctionnels par salle.",
+                items: ["État des toitures et étanchéité", "Disponibilité des bancs-pupitres", "Clôture de sécurité de l'école", "État des portes et fenêtres"]
+            },
+            wash: {
+                title: "🚰 Eau, Hygiène & Latrines",
+                desc: "Évaluation de l'accès à l'eau potable courante, du fonctionnement des sanisettes et de la séparation filles/garçons.",
+                items: ["Latrines séparées et fonctionnelles", "Points de lavage des mains avec savon", "Accès continu à l'eau potable", "Entretien quotidien de la salubrité"]
+            },
+            books: {
+                title: "📚 Matériel Didactique & Livres",
+                desc: "Contrôle du ratio manuels scolaires par élève et accès aux équipements informatiques ou de laboratoire.",
+                items: ["Ratio de manuels par élève (cible 1:1)", "Matériel de laboratoire de sciences", "Fournitures de géométrie et cartes", "Bibliothèque et coin lecture"]
+            },
+            staff: {
+                title: "👨‍🏫 Services Éducatifs & Présence",
+                desc: "Suivi de la présence effective des enseignants à leurs cours et respect du calendrier officiel.",
+                items: ["Ponctualité des enseignants aux cours", "Remplacement des professeurs absents", "Respect du programme officiel EPST", "Climat d'écoute des élèves"]
+            },
+            gender: {
+                title: "👧 Inclusion & Équité Gender",
+                desc: "Mesure de la participation active des filles dans la gouvernance des clubs et adaptation pour élèves à mobilité réduite.",
+                items: ["40% minimum de leadership féminin", "Espaces sûrs pour les jeunes filles", "Accès PMR (rampes d'accès aux classes)", "Protection contre toute forme de harcèlement"]
+            }
+        };
+
+        function switchTrackCategory(key) {
+            const data = trackData[key];
+            const display = document.getElementById('trackCategoryDisplay');
+            
+            // Reset active button styling
+            const buttons = document.querySelectorAll('#categoryFilterGrid button');
+            buttons.forEach(b => {
+                b.classList.remove('bg-brand-navy', 'text-white');
+                b.classList.add('text-slate-600');
+            });
+            
+            const activeBtn = document.getElementById(`catbtn-${key}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-brand-navy', 'text-white');
+                activeBtn.classList.remove('text-slate-600');
+            }
+
+            // Build dynamic list
+            let itemsHtml = data.items.map(i => `
+                <li class="flex items-center gap-3 text-xs font-semibold text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <i class="fa-solid fa-circle-check text-brand-teal text-sm"></i>
+                    <span>${i}</span>
+                </li>
+            `).join('');
+
+            display.innerHTML = `
+                <div class="space-y-6 animate-fade-in">
+                    <div>
+                        <h3 class="text-2xl font-black text-brand-navy">${data.title}</h3>
+                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">${data.desc}</p>
+                    </div>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        ${itemsHtml}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Initialize category display
+        switchTrackCategory('infra');
+
+        // Fix Rate Simulator Logic
+        const calcTotalRange = document.getElementById('calcTotalRange');
+        const calcResolvedPctRange = document.getElementById('calcResolvedPctRange');
+        
+        function updateFixRateCalc() {
+            const total = parseInt(calcTotalRange.value);
+            const pct = parseInt(calcResolvedPctRange.value);
+            const resolvedNum = Math.round((total * pct) / 100);
+
+            document.getElementById('calcTotalVal').innerText = total;
+            document.getElementById('calcResolvedPctVal').innerText = `${pct}%`;
+            document.getElementById('calcFixedNum').innerText = resolvedNum;
+            document.getElementById('calcTotalNumDisplay').innerText = total;
+            document.getElementById('calcResultDisplay').innerText = `${pct.toFixed(1)}%`;
+        }
+
+        if (calcTotalRange && calcResolvedPctRange) {
+            calcTotalRange.addEventListener('input', updateFixRateCalc);
+            calcResolvedPctRange.addEventListener('input', updateFixRateCalc);
+        }
+
+        // App Simulator Submission
+        function runAppSimulatorAction() {
+            const statusBox = document.getElementById('simAppStatus');
+            statusBox.classList.remove('hidden');
+            setTimeout(() => {
+                statusBox.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Deployment Contact Form Submit
+        const deploymentForm = document.getElementById('deploymentForm');
+        if (deploymentForm) {
+            deploymentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const alertBox = document.getElementById('contactFormAlert');
+                alertBox.classList.remove('hidden');
+                deploymentForm.reset();
+                setTimeout(() => {
+                    alertBox.classList.add('hidden');
+                }, 6000);
+            });
+        }
+
+        // Chart.js Setup for Results Page
+        window.addEventListener('load', () => {
+            const ctx = document.getElementById('resultsChartCanvas');
+            if (ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Infrastructures', 'Eau & Latrines', 'Manuels & Mdtl', 'Enseignants', 'Inclusion'],
+                        datasets: [
+                            {
+                                label: 'Problèmes Résolus (Fixed)',
+                                data: [85, 72, 68, 90, 81],
+                                backgroundColor: '#0D9488',
+                                borderRadius: 8
+                            },
+                            {
+                                label: 'En Cours de Traitement',
+                                data: [15, 28, 32, 10, 19],
+                                backgroundColor: '#E11D48',
+                                borderRadius: 8
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: { family: 'Plus Jakarta Sans', size: 11, weight: 'bold' }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true, grid: { display: false } },
+                            y: { stacked: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
