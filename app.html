@@ -24,9 +24,21 @@ nav button span{font-size:19px}nav button.on{color:var(--pri);font-weight:700}
 .chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
 .mut{color:var(--mut);font-size:13px}
 .ph{width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-top:8px}
-.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:13px;opacity:0;transition:opacity .2s}
+.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;max-width:90%}
 .toast.on{opacity:1}
 .kpi b{font-size:22px;color:var(--pri);display:block}
+.form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.label{font-weight:700;font-size:13px}
+.input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);font:inherit}
+textarea{min-height:100px;resize:vertical}
+.row{display:flex;gap:8px}
+.small{font-size:13px;color:var(--mut)}
+.photo-preview{display:block;width:100%;height:160px;object-fit:cover;border-radius:10px;border:1px dashed var(--line);background:linear-gradient(180deg,#fff,#f8f8f8);display:grid;place-items:center;color:var(--mut)}
+.switch{display:flex;align-items:center;gap:10px}
+.geo{display:flex;gap:8px;align-items:center}
+.geo button{padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.footer-note{font-size:12px;color:var(--mut);margin-top:8px}
+@media (max-width:420px){.ph{max-height:120px}}
 </style>
 </head>
 <body>
@@ -51,21 +63,145 @@ const root = document.documentElement.style;
 root.setProperty('--pri', '#ff6a00');
 root.setProperty('--pri-700', '#d35400');
 root.setProperty('--line', '#f0f0f0');
-// existing app script continues
 </script>
 <script>
-/* original app logic preserved (trimmed in repo view) */
-const L={en:{report:"Report",issues:"Issues",schools:"Schools",stats:"Stats",more:"More",sub:"Student-led school oversight",submit:"Submit report",desc:"What happened?",cat:"Category",school:"School",photo:"Photo",loc:"Location",anon:"Report anonymously",all:"All",st:["Reported","Acknowledged","Fixed","Verified"],ack:"Acknowledge",fix:"Mark fixed",ver:"Verify"},fr:{report:"Signaler",issues:"Problèmes",schools:"Écoles",stats:"Stats",more:"Plus",sub:"Suivi des écoles par les élèves",submit:"Envoyer le signalement",desc:"Que s'est-il passé ?",cat:"Catégorie",school:"École",photo:"Photo",loc:"Localisation",anon:"Anonyme",all:"Tous",st:["Signalé","Accusé de réception","Réparé","Vérifié"],ack:"Accuser réception",fix:"Marquer comme réparé",ver:"Vérifier"}};
+/* Improved report form inspired by DevCheck (accessible, mobile-first, photo preview, location, anonymous toggle) */
+const L={en:{report:"Report",issues:"Issues",schools:"Schools",stats:"Stats",more:"More",sub:"Student-led school oversight",submit:"Submit report",desc:"What happened?",cat:"Category",school:"School",photo:"Add photo",loc:"Add location",anon:"Report anonymously",all:"All",ack:"Acknowledge",fix:"Mark fixed",ver:"Verify fix",role:"Your role",lang:"Language",offline:"Offline mode",st:["Reported","Acknowledged","Fixed","Verified"]}};
 const CATS={infra:"🏗️ Infrastructure",teacher:"👩‍🏫 Teacher attendance",curr:"📚 Curriculum quality",safety:"🦺 Safety",access:"♿ Accessibility"};
-const SCH=[{id:1,n:"Collège Alfajiri",r:"Bukavu",t:"Secondary",x:38,y:62,tel:"+243 000 000 001"},{id:2,n:"Institut Mwanga",r:"Bukavu",t:"Technical",x:44,y:70,tel:"+243 000 000 002"},{id:3,n:"Lycée Tanganyika",r:"Uvira",t:"Secondary",x:52,y:88,tel:"+243 000 000 003"}];
+const SCH=[{id:1,n:"Collège Alfajiri",r:"Bukavu",t:"Secondary",tel:"+243 000 000 001"},{id:2,n:"Institut Mwanga",r:"Bukavu",t:"Technical",tel:"+243 000 000 002"},{id:3,n:"Lycée Lumière",r:"Goma",t:"Secondary",tel:"+243 000 000 003"}];
 let I=[{id:1,s:1,c:"teacher",d:"Maths teacher absent for two weeks, no replacement.",st:2,when:"3 days ago"}];
-const S={tab:"report",lang:"en",role:"Monitor",off:false,cat:"infra",anon:false,photo:null,loc:null,flt:-1,rf:"All",tf:"All",map:false,rate:{},q:[]};
-const $=s=>document.querySelector(s),t=k=>L[S.lang][k];
-function draw(){/* minimal renderer kept for demo */
-  document.getElementById('v').innerHTML = `<div class="card"><h2>Demo app</h2><p class="mut">Open the full web preview from the homepage to use the prototype UI.</p><a class="btn" href="index.html">Back to site</a></div>`;
-  document.getElementById('nav').innerHTML = `<button class="on" data-t="report">📝<div>Report</div></button><button data-t="issues">📋<div>Issues</div></button>`;
+let S={tab:"report",lang:"en",role:"Monitor",off:false,cat:"infra",anon:false,photo:null,loc:null,flt:-1,rf:"All",tf:"All",map:false,rate:{},q:[]};
+const $=s=>document.querySelector(s);
+function navTemplate(){
+  return `
+    <button class="on" data-t="report">📝<div>Report</div></button>
+    <button data-t="issues">📋<div>Issues</div></button>
+    <button data-t="schools">🏫<div>Schools</div></button>
+    <button data-t="stats">📊<div>Stats</div></button>
+  `;
 }
-function bind(){document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;draw();});}
+function draw(){
+  const v = document.getElementById('v');
+  if(S.tab==='report'){
+    v.innerHTML = `
+      <h2 style="margin:0 0 8px">${L[S.lang].submit}</h2>
+      <p class="mut">Fill out a short report — include a photo and location if possible. Reports can be anonymous.</p>
+      <div class="card" role="form" aria-labelledby="reportHead">
+        <div class="form-row">
+          <label class="label" for="desc">${L[S.lang].desc}</label>
+          <textarea id="desc" placeholder="e.g. Water tap broken near block B" aria-required="true"></textarea>
+        </div>
+        <div class="form-row">
+          <label class="label">${L[S.lang].cat}</label>
+          <div class="chips" id="catChips">
+            ${Object.entries(CATS).map(([k,v])=>`<button type="button" class="chip ${S.cat===k? 'on':''}" data-cat="${k}">${v}</button>`).join('')}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="label" for="school">${L[S.lang].school}</label>
+          <select id="school" class="input">
+            <option value="">Choose a school (optional)</option>
+            ${SCH.map(s=>`<option value="${s.id}">${s.n} — ${s.r}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="label">${L[S.lang].photo}</label>
+          <label class="photo-preview" id="photoPreview">Click to add photo<input id="photo" type="file" accept="image/*" style="display:none"></label>
+        </div>
+        <div class="form-row">
+          <label class="label">${L[S.lang].loc}</label>
+          <div class="geo">
+            <input id="location" class="input" placeholder="Tap to use device location or paste coordinates" aria-label="Location">
+            <button id="geoBtn" aria-label="Use device location">📍</button>
+          </div>
+        </div>
+        <div class="form-row switch">
+          <label><input id="anon" type="checkbox"> ${L[S.lang].anon}</label>
+        </div>
+        <div class="row" style="margin-top:6px">
+          <button class="btn" id="submitBtn">${L[S.lang].submit}</button>
+          <button class="btn s" id="clearBtn" type="button">Clear</button>
+        </div>
+        <div class="footer-note">Reports are sent to the local demo queue — in a real deployment they would go to a secure backend.</div>
+      </div>
+    `;
+    bindReport();
+  } else if(S.tab==='issues'){
+    v.innerHTML = `<h2 style="margin:0 0 8px">Issues</h2><p class="mut">All reports (demo data)</p>` + renderIssues();
+  } else if(S.tab==='schools'){
+    v.innerHTML = `<h2 style="margin:0 0 8px">Schools</h2><p class="mut">Browse demo school list</p><div class="card">${SCH.map(s=>`<div style='margin-bottom:8px'><strong>${s.n}</strong><div class='mut'>${s.r} · ${s.t}</div></div>`).join('')}</div>`;
+  } else if(S.tab==='stats'){
+    v.innerHTML = `<h2 style="margin:0 0 8px">Stats</h2><div class="card"><div class="kpi"><b>${I.length}</b><span class="mini">reports (demo)</span></div></div>`;
+  }
+  document.getElementById('nav').innerHTML = navTemplate();
+  bindNav();
+}
+function renderIssues(){
+  if(I.length===0) return '<div class="card"><p class="mut">No reports yet.</p></div>';
+  return '<div class="card">' + I.map(r=>{
+    const school = SCH.find(s=>s.id===r.s);
+    return `<div style="border-bottom:1px solid var(--line);padding:8px 0"><div style="display:flex;justify-content:space-between"><strong>${CATS[r.c]||r.c}</strong><small class="mut">${r.when||'now'}</small></div><div class="mut">${r.d}</div><div class="mut" style="margin-top:6px">${school?school.n:''}</div></div>`
+  }).join('') + '</div>';
+}
+function bindNav(){
+  document.querySelectorAll('#nav [data-t]').forEach(b=>{
+    b.onclick=()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');S.tab=b.dataset.t;draw();};
+  });
+}
+function bindReport(){
+  // category chips
+  document.querySelectorAll('#catChips .chip').forEach(c=>c.onclick=()=>{
+    document.querySelectorAll('#catChips .chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');S.cat=c.dataset.cat;
+  });
+  // photo input and preview
+  const photoInput = document.getElementById('photo');
+  const preview = document.getElementById('photoPreview');
+  preview.onclick = ()=> photoInput.click();
+  photoInput.onchange = (e)=>{
+    const f = e.target.files[0];
+    if(!f) return;
+    const url = URL.createObjectURL(f);
+    S.photo = f;
+    preview.innerHTML = `<img src="${url}" class="ph" alt="Photo preview">`;
+  };
+  // geolocation
+  document.getElementById('geoBtn').onclick = async ()=>{
+    if(!navigator.geolocation){toast('Geolocation not supported');return}
+    document.getElementById('geoBtn').textContent='⏱';
+    navigator.geolocation.getCurrentPosition(pos=>{
+      const {latitude,longitude} = pos.coords;
+      document.getElementById('location').value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+      document.getElementById('geoBtn').textContent='📍';
+    },err=>{toast('Unable to get location');document.getElementById('geoBtn').textContent='📍'});
+  };
+  // anonymous toggle
+  document.getElementById('anon').onchange = e=>S.anon=e.target.checked;
+  // submit
+  document.getElementById('submitBtn').onclick = ()=>{
+    const desc = document.getElementById('desc').value.trim();
+    if(!desc){toast('Please add a short description');document.getElementById('desc').focus();return}
+    const school = parseInt(document.getElementById('school').value)||null;
+    const id = Date.now();
+    I.unshift({id,id2:id,s:school,c:S.cat,d:desc,st:0,when:'just now',anon:S.anon});
+    toast('Report queued (demo)');
+    // reset small parts but keep last category
+    document.getElementById('desc').value='';
+    document.getElementById('location').value='';
+    document.getElementById('photo').value='';
+    document.getElementById('photoPreview').innerHTML='Click to add photo<input id="photo" type="file" accept="image/*" style="display:none">';
+    // rebind photo input after replacing node
+    document.getElementById('photo').onchange = photoInput.onchange;
+    draw();
+  };
+  document.getElementById('clearBtn').onclick = ()=>{
+    document.getElementById('desc').value='';document.getElementById('location').value='';document.getElementById('photo').value='';document.getElementById('anon').checked=false;S.anon=false;toast('Cleared');
+  };
+}
+function toast(msg){
+  const t = document.getElementById('t');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);
+}
+// initial render
 draw();
 </script>
 </body>
