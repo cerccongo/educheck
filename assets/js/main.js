@@ -15,7 +15,7 @@
   })
 
   // Insert current year in multiple pages
-  ['#year','#yearAbout','#yearMon','#yearStats','#yearContact'].forEach(function(id){
+  ;['#year','#yearAbout','#yearMon','#yearStats','#yearContact'].forEach(function(id){
     var el = qs(id)
     if(el) el.textContent = new Date().getFullYear()
   })
